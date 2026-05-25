@@ -133,7 +133,7 @@ class _LoginState extends State<Login> {
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                const Mapa()), // Descomente quando importar
+                                const Perfil()), // Descomente quando importar
                       );
                     }
                   },
@@ -167,7 +167,7 @@ class _LoginState extends State<Login> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const Cadastro()),
+                      MaterialPageRoute(builder: (context) => const CadastroUsuario()),
                     );
                   },
                   child: const Text(

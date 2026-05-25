@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:app_disque_suicidio/pages/mapa.dart';
 import 'package:app_disque_suicidio/pages/perfil.dart';
 import 'package:app_disque_suicidio/pages/login_usuario.dart';
 import 'package:app_disque_suicidio/pages/home_page.dart';
@@ -196,7 +195,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const Mapa()));
+                              builder: (context) => const Perfil()));
                     }
                   },
                   child: const Text(
