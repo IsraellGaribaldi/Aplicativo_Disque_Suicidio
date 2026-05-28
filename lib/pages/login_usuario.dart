@@ -38,7 +38,7 @@ class _LoginState extends State<Login> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset(
-                  'img/Escura-removebg-preview.img',
+                  'img/Escura-removebg-preview.png',
                   height: 250,
                   width: 230,
                 ),

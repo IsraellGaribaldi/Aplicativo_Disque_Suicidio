@@ -20,7 +20,7 @@ class _PerfilState extends State<Perfil> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(
-                'img/Escura-letreiro-removebg-preview.img',
+                'img/Escura-letreiro-removebg-preview.png',
                 height: 250,
               ),
               const SizedBox(height: 30),
