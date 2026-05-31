@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:app_disque_suicidio/pages/perfil.dart';
 import 'package:app_disque_suicidio/pages/cadastro_usuario.dart';
-import 'package:app_disque_suicidio/pages/home_page.dart';
-import 'package:app_disque_suicidio/main.dart';
 
 
 class Login extends StatefulWidget {
@@ -51,7 +49,7 @@ class _LoginState extends State<Login> {
                     color: Colors.black,
                   ),
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 33),
                 const Text(
                   "Faça login para continuar",
                   style: TextStyle(
@@ -64,8 +62,9 @@ class _LoginState extends State<Login> {
                 TextFormField(
                   controller: _emailController,
                   keyboardType: TextInputType.emailAddress,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15.0)),
                     labelText: 'Email',
                     hintText: 'Digite seu email aqui',
                   ),
@@ -79,13 +78,14 @@ class _LoginState extends State<Login> {
                     return null; // Retornar null significa que passou na validação
                   },
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 50),
 
                 TextFormField(
                   controller: _passwordController,
                   keyboardType: TextInputType.visiblePassword,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15.0)),
                     labelText: 'Senha',
                     hintText: 'Digite sua senha aqui',
                   ),
@@ -114,7 +114,7 @@ class _LoginState extends State<Login> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 58),
 
                 // Botão ENTRAR com validação
                 ElevatedButton(
@@ -146,7 +146,7 @@ class _LoginState extends State<Login> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 30),
+                const SizedBox(height: 83),
                 const Text(
                   "Não se cadastrou?",
                   style: TextStyle(
@@ -154,7 +154,7 @@ class _LoginState extends State<Login> {
                     color: Colors.black,
                   ),
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 21),
 
                 OutlinedButton(
                   style: OutlinedButton.styleFrom(
@@ -167,7 +167,8 @@ class _LoginState extends State<Login> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const CadastroUsuario()),
+                      MaterialPageRoute(
+                          builder: (context) => const CadastroUsuario()),
                     );
                   },
                   child: const Text(

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:app_disque_suicidio/pages/perfil.dart';
 import 'package:app_disque_suicidio/pages/login_usuario.dart';
-import 'package:app_disque_suicidio/pages/home_page.dart';
-import 'package:app_disque_suicidio/main.dart';
+
 
 class CadastroUsuario extends StatefulWidget {
   const CadastroUsuario({super.key});
@@ -53,12 +52,13 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                     color: Colors.black,
                   ),
                 ),
-                const SizedBox(height: 30),
+                const SizedBox(height: 40),
                 TextFormField(
                   controller: _nomeController,
                   keyboardType: TextInputType.name,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15.0)),
                     labelText: 'Nome',
                     hintText: 'Digite seu nome aqui',
                   ),
@@ -69,12 +69,13 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                     return null;
                   },
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 30),
                 TextFormField(
                   controller: _emailController,
                   keyboardType: TextInputType.emailAddress,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15.0)),
                     labelText: 'Email',
                     hintText: 'Digite seu email aqui',
                   ),
@@ -88,12 +89,13 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                     return null;
                   },
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 30),
                 TextFormField(
                   controller: _telefoneController,
                   keyboardType: TextInputType.phone,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15.0)),
                     labelText: 'Telefone',
                     hintText: 'Digite seu telefone aqui',
                   ),
@@ -104,12 +106,13 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                     return null;
                   },
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 30),
                 TextFormField(
                   controller: _dataNascimentoController,
                   readOnly: true,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15.0)),
                     labelText: 'Data de Nascimento',
                     hintText: 'Selecione sua data',
                   ),
@@ -136,11 +139,12 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                     return null;
                   },
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 30),
                 DropdownButtonFormField<String>(
                   initialValue: _generoSelecionado,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15.0)),
                     labelText: 'Gênero',
                   ),
                   items: ['Masculino', 'Feminino', 'Outro', 'Prefiro não dizer']
@@ -161,12 +165,14 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                     return null;
                   },
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 30),
                 TextFormField(
                   controller: _passwordController,
                   keyboardType: TextInputType.visiblePassword,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
                     labelText: 'Senha',
                     hintText: 'Digite sua senha aqui',
                   ),
@@ -180,7 +186,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                     return null;
                   },
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: 64),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF008D97),
@@ -207,7 +213,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: 94),
                 const Text(
                   "Já tem uma conta?",
                   style: TextStyle(
@@ -215,7 +221,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                     color: Colors.black,
                   ),
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 19),
                 OutlinedButton(
                   style: OutlinedButton.styleFrom(
                     side: const BorderSide(color: Colors.black, width: 1),

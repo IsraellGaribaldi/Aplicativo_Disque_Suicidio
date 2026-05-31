@@ -23,7 +23,7 @@ class _PerfilState extends State<Perfil> {
                 'img/Escura-letreiro-removebg-preview.png',
                 height: 250,
               ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 20),
               const Text(
                 "Qual a classificação do seu perfil?",
                 textAlign: TextAlign.center,
@@ -32,7 +32,7 @@ class _PerfilState extends State<Perfil> {
                   color: Colors.black,
                 ),
               ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 91),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFFE6F5F6),
@@ -60,7 +60,7 @@ class _PerfilState extends State<Perfil> {
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 42),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFFE6F5F6),

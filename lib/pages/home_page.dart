@@ -33,7 +33,7 @@ class _HomePageState extends State<HomePage> {
                   color: Colors.black,
                 ),
               ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 196),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF008D97),
@@ -58,7 +58,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
-              const SizedBox(height: 25),
+              const SizedBox(height: 70),
               const Text(
                 "Ou se já tiver uma conta",
                 style: TextStyle(
@@ -66,7 +66,7 @@ class _HomePageState extends State<HomePage> {
                   color: Colors.black,
                 ),
               ),
-              const SizedBox(height: 25),
+              const SizedBox(height: 21),
               OutlinedButton(
                 style: OutlinedButton.styleFrom(
                   side: const BorderSide(color: Colors.black, width: 1.5),
