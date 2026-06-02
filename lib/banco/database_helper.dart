@@ -23,6 +23,13 @@ class DatabaseHelper {
     genero TEXT,
     senha TEXT
     )
+
+    CREATE TABLE empresas(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    lat REAL,
+    long REAL,
+    nome TEXT,
+    email TEXT)
     ''');
     },
     );
