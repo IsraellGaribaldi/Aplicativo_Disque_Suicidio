@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:app_disque_suicidio/pages/perfil.dart';
 import 'package:app_disque_suicidio/pages/cadastro_usuario.dart';
+import 'package:app_disque_suicidio/banco/database_helper.dart';
+import 'package:app_disque_suicidio/pages/mapa_inicio.dart';
 
 
 class Login extends StatefulWidget {
@@ -133,7 +135,7 @@ class _LoginState extends State<Login> {
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                const Perfil()), // Descomente quando importar
+                                const MapPage()), // Descomente quando importar
                       );
                     }
                   },

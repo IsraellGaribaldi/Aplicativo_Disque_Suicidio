@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:app_disque_suicidio/pages/perfil.dart';
 import 'package:app_disque_suicidio/pages/login_usuario.dart';
+import 'package:app_disque_suicidio/banco/database_helper.dart';
+import 'package:app_disque_suicidio/pages/mapa_inicio.dart';
 
 
 class CadastroUsuario extends StatefulWidget {
@@ -201,7 +203,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const Perfil()));
+                              builder: (context) => const MapPage()));
                     }
                   },
                   child: const Text(
