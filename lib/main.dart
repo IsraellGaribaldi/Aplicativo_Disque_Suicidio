@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart'; //rodar isso daqui depois
-import 'package:app_disque_suicidio/pages/home_page.dart';
+import 'package:app_disque_suicidio/pages/home/home_page.dart';
 
 
 void main() {

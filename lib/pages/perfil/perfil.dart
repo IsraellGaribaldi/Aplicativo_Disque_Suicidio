@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:app_disque_suicidio/pages/cadastro_usuario.dart';
+import 'package:app_disque_suicidio/pages/auth/cadastro_usuario.dart';
 
 class Perfil extends StatefulWidget {
   const Perfil({super.key});

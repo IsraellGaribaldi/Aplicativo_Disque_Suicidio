@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:app_disque_suicidio/pages/perfil.dart';
-import 'package:app_disque_suicidio/pages/login_usuario.dart';
+import 'package:app_disque_suicidio/pages/perfil/perfil.dart';
+import 'package:app_disque_suicidio/pages/auth/login_usuario.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

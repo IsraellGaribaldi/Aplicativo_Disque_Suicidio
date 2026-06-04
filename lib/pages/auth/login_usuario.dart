@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:app_disque_suicidio/pages/perfil.dart';
-import 'package:app_disque_suicidio/pages/cadastro_usuario.dart';
+import 'package:app_disque_suicidio/pages/perfil/perfil.dart';
+import 'package:app_disque_suicidio/pages/auth/cadastro_usuario.dart';
 import 'package:app_disque_suicidio/banco/database_helper.dart';
-import 'package:app_disque_suicidio/pages/mapa_inicio.dart';
+import 'package:app_disque_suicidio/pages/home/mapa_inicio.dart';
 
 
 class Login extends StatefulWidget {
