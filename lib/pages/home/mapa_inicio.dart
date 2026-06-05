@@ -44,9 +44,6 @@ class _MapPageState extends State<MapPage> {
     ];
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Disque Suicídio'),
-      ),
       body: telas[_paginaAtual],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _paginaAtual,
