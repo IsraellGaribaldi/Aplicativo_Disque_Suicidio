@@ -22,15 +22,35 @@ class DatabaseHelper {
     dataNascimento TEXT,
     genero TEXT,
     senha TEXT
-    )
-
-    CREATE TABLE empresas(
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    lat REAL,
-    long REAL,
-    nome TEXT,
-    email TEXT)
+    FOREIGN KEY (id) REFERENCES clinicas(id)
+    FOREIGN KEY (id) REFERENCES autonomos(id)
     ''');
+
+    await db.execute('''
+    CREATE TABLE clinicas (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      nome TEXT,
+      endereco TEXT,
+      horario TEXT,
+      descricao TEXT,
+      nota REAL,
+      planos TEXT,
+      lat REAL,
+      long REAL
+    )
+  ''');
+
+  await db.execute('''
+    CREATE TABLE autonomos (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      nome TEXT,
+      email TEXT,
+      lat REAL,
+      long REAL
+    )
+  ''');
+
+
     },
     );
     return _database!;

@@ -55,14 +55,17 @@ class _MapPageState extends State<MapPage> {
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.map),
+            activeIcon: Icon(Icons.map_outlined),
             label: 'Mapa',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.local_hospital),
+            activeIcon: Icon(Icons.local_hospital_outlined),
             label: 'Clínicas',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
+            activeIcon: Icon(Icons.person_outline),
             label: 'Autônomos',
           ),
         ],
