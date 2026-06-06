@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:app_disque_suicidio/pages/auth/cadastro_usuario.dart';
 
-class Perfil extends StatefulWidget {
+class Perfil extends StatelessWidget {
   const Perfil({super.key});
 
-  @override
-  State<Perfil> createState() => _PerfilState();
-}
-
-class _PerfilState extends State<Perfil> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,10 +22,7 @@ class _PerfilState extends State<Perfil> {
               const Text(
                 "Qual a classificação do seu perfil?",
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.black,
-                ),
+                style: TextStyle(fontSize: 20, color: Colors.black),
               ),
               const SizedBox(height: 91),
               ElevatedButton(

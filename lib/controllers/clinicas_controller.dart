@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
-import '../models/clinicas.dart';
+import 'package:app_disque_suicidio/banco/clinica_dao.dart';
+import 'package:app_disque_suicidio/models/clinicas.dart';
 
+<<<<<<< HEAD
 class ClinicasController extends ChangeNotifier {
   List<Clinica> buscarClinicas() {
     return [
@@ -26,9 +27,12 @@ class ClinicasController extends ChangeNotifier {
         longitude: -34.8460,
       ),
     ];
-  }
+=======
+class ClinicasController {
+  final _dao = ClinicaDao();
 
-  Clinica buscarClinica() {
-    return buscarClinicas().first;
+  Future<List<Clinica>> listarClinicas() async {
+    return await _dao.buscarClinicas();
+>>>>>>> b5318fa07caa7d426f5db46eeca302a7fcee7d24
   }
 }
