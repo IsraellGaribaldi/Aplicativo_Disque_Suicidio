@@ -1,60 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:app_disque_suicidio/banco/database_helper.dart';
-import 'package:app_disque_suicidio/pages/auth/cadastro_usuario.dart';
+import 'package:app_disque_suicidio/pages/auth/login_usuario.dart';
 import 'package:app_disque_suicidio/pages/home/mapa_inicio.dart';
 
-class Login extends StatefulWidget {
-  const Login({super.key});
+class CadastroEmpresa extends StatefulWidget {
+  const CadastroEmpresa({super.key});
 
   @override
-  State<Login> createState() => _LoginState();
+  State<CadastroEmpresa> createState() => _CadastroEmpresaState();
 }
 
-class _LoginState extends State<Login> {
+class _CadastroEmpresaState extends State<CadastroEmpresa> {
   final _formKey = GlobalKey<FormState>();
+  final _nomeController = TextEditingController();
   final _emailController = TextEditingController();
+  final _telefoneController = TextEditingController();
+  final _cnpjController = TextEditingController();
   final _passwordController = TextEditingController();
-  bool _carregando = false;
 
   @override
   void dispose() {
+    _nomeController.dispose();
     _emailController.dispose();
+    _telefoneController.dispose();
+    _cnpjController.dispose();
     _passwordController.dispose();
     super.dispose();
-  }
-
-  Future<void> _fazerLogin() async {
-    if (!_formKey.currentState!.validate()) return;
-
-    setState(() => _carregando = true);
-
-    final db = await DatabaseHelper.getDatabase();
-    final resultado = await db.query(
-      'contas',
-      where: 'email = ? AND senha = ?',
-      whereArgs: [
-        _emailController.text.trim(),
-        _passwordController.text,
-      ],
-    );
-
-    setState(() => _carregando = false);
-
-    if (!mounted) return;
-
-    if (resultado.isNotEmpty) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const MapPage()),
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Email ou senha incorretos.'),
-          backgroundColor: Colors.red,
-        ),
-      );
-    }
   }
 
   @override
@@ -69,24 +39,30 @@ class _LoginState extends State<Login> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset(
-                  'img/Escura-removebg-preview.png',
-                  height: 250,
-                  width: 230,
-                ),
-                const SizedBox(height: 20),
                 const Text(
-                  "Boas Vindas!",
+                  "Criar uma conta",
                   style: TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.w600,
                     color: Colors.black,
                   ),
                 ),
-                const SizedBox(height: 33),
-                const Text(
-                  "Faça login para continuar",
-                  style: TextStyle(fontSize: 20, color: Colors.black),
+                const SizedBox(height: 40),
+                TextFormField(
+                  controller: _nomeController,
+                  keyboardType: TextInputType.name,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15.0)),
+                    labelText: 'Nome da Empresa',
+                    hintText: 'Digite o nome da empresa',
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Por favor, insira o nome da empresa';
+                    }
+                    return null;
+                  },
                 ),
                 const SizedBox(height: 30),
                 TextFormField(
@@ -96,7 +72,7 @@ class _LoginState extends State<Login> {
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15.0)),
                     labelText: 'Email',
-                    hintText: 'Digite seu email aqui',
+                    hintText: 'Digite o email da empresa',
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -108,7 +84,41 @@ class _LoginState extends State<Login> {
                     return null;
                   },
                 ),
-                const SizedBox(height: 50),
+                const SizedBox(height: 30),
+                TextFormField(
+                  controller: _telefoneController,
+                  keyboardType: TextInputType.phone,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15.0)),
+                    labelText: 'Telefone',
+                    hintText: 'Digite o telefone da empresa',
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Por favor, insira o telefone';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 30),
+                TextFormField(
+                  controller: _cnpjController,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15.0)),
+                    labelText: 'CNPJ',
+                    hintText: 'Digite o CNPJ da empresa',
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Por favor, insira o CNPJ';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 30),
                 TextFormField(
                   controller: _passwordController,
                   obscureText: true,
@@ -129,17 +139,7 @@ class _LoginState extends State<Login> {
                     return null;
                   },
                 ),
-                TextButton(
-                  onPressed: () {},
-                  child: const Text(
-                    "Esqueceu a senha?",
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 58),
+                const SizedBox(height: 64),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF008D97),
@@ -147,13 +147,19 @@ class _LoginState extends State<Login> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(50),
                     ),
-                    minimumSize: const Size(362, 60),
+                    minimumSize: const Size(double.infinity, 60),
                   ),
-                  onPressed: _carregando ? null : _fazerLogin,
-                  child: _carregando
-                      ? const CircularProgressIndicator(color: Colors.white)
-                      : const Text(
-                    'Entrar',
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const MapPage()),
+                      );
+                    }
+                  },
+                  child: const Text(
+                    'Cadastrar',
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w500,
@@ -161,12 +167,12 @@ class _LoginState extends State<Login> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 83),
+                const SizedBox(height: 94),
                 const Text(
-                  "Não se cadastrou?",
+                  "Já tem uma conta?",
                   style: TextStyle(fontSize: 16, color: Colors.black),
                 ),
-                const SizedBox(height: 21),
+                const SizedBox(height: 19),
                 OutlinedButton(
                   style: OutlinedButton.styleFrom(
                     side: const BorderSide(color: Colors.black, width: 1),
@@ -179,11 +185,11 @@ class _LoginState extends State<Login> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const CadastroUsuario()),
+                          builder: (context) => const Login()),
                     );
                   },
                   child: const Text(
-                    'Cadastre-se',
+                    'Faça login',
                     style: TextStyle(fontSize: 16, color: Colors.black),
                   ),
                 ),

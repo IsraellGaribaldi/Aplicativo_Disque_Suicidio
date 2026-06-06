@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:app_disque_suicidio/pages/auth/cadastro_usuario.dart';
 
+import '../auth/cadastro_empresa.dart';
+
 class Perfil extends StatelessWidget {
   const Perfil({super.key});
 
@@ -64,7 +66,12 @@ class Perfil extends StatelessWidget {
                   minimumSize: const Size(212, 121),
                 ),
                 onPressed: () {
-                  // Futura navegação para cadastro de empresa
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const CadastroEmpresa(),
+                    ),
+                  );
                 },
                 child: const Text(
                   'Empresa',
