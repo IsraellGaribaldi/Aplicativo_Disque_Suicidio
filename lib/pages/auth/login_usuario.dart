@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:app_disque_suicidio/pages/perfil/perfil.dart';
 import 'package:app_disque_suicidio/pages/auth/cadastro_usuario.dart';
-import 'package:app_disque_suicidio/banco/database_helper.dart';
 import 'package:app_disque_suicidio/pages/home/mapa_inicio.dart';
-
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -13,9 +10,9 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  final _formKey = GlobalKey<FormState>(); //chave de validação do form
-  final _emailController = TextEditingController(); //controleer do email
-  final _passwordController = TextEditingController(); //controller da senha
+  final _formKey = GlobalKey<FormState>();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
 
   @override
   void dispose() {
@@ -30,8 +27,7 @@ class _LoginState extends State<Login> {
       backgroundColor: const Color(0xFFFAFAFA),
       body: Center(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(
-              20.0), // Margem geral para a tela não grudar nas bordas
+          padding: const EdgeInsets.all(20.0),
           child: Form(
             key: _formKey,
             child: Column(
@@ -54,13 +50,9 @@ class _LoginState extends State<Login> {
                 const SizedBox(height: 33),
                 const Text(
                   "Faça login para continuar",
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.black,
-                  ),
+                  style: TextStyle(fontSize: 20, color: Colors.black),
                 ),
                 const SizedBox(height: 30),
-
                 TextFormField(
                   controller: _emailController,
                   keyboardType: TextInputType.emailAddress,
@@ -77,13 +69,13 @@ class _LoginState extends State<Login> {
                     if (!value.contains('@')) {
                       return 'Email inválido';
                     }
-                    return null; // Retornar null significa que passou na validação
+                    return null;
                   },
                 ),
                 const SizedBox(height: 50),
-
                 TextFormField(
                   controller: _passwordController,
+                  obscureText: true,
                   keyboardType: TextInputType.visiblePassword,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
@@ -101,13 +93,8 @@ class _LoginState extends State<Login> {
                     return null;
                   },
                 ),
-
-                // "Esqueceu a senha?" transformado em botão e alinhado à direita
-
                 TextButton(
-                  onPressed: () {
-                    // Ação de recuperar senha no futuro
-                  },
+                  onPressed: () {},
                   child: const Text(
                     "Esqueceu a senha?",
                     style: TextStyle(
@@ -117,8 +104,6 @@ class _LoginState extends State<Login> {
                   ),
                 ),
                 const SizedBox(height: 58),
-
-                // Botão ENTRAR com validação
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF008D97),
@@ -129,13 +114,11 @@ class _LoginState extends State<Login> {
                     minimumSize: const Size(362, 60),
                   ),
                   onPressed: () {
-                    // SE o formulário for válido (passar nos validators)...
                     if (_formKey.currentState!.validate()) {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>
-                                const MapPage()), // Descomente quando importar
+                            builder: (context) => const MapPage()),
                       );
                     }
                   },
@@ -151,13 +134,9 @@ class _LoginState extends State<Login> {
                 const SizedBox(height: 83),
                 const Text(
                   "Não se cadastrou?",
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.black,
-                  ),
+                  style: TextStyle(fontSize: 16, color: Colors.black),
                 ),
                 const SizedBox(height: 21),
-
                 OutlinedButton(
                   style: OutlinedButton.styleFrom(
                     side: const BorderSide(color: Colors.black, width: 1),
@@ -175,10 +154,7 @@ class _LoginState extends State<Login> {
                   },
                   child: const Text(
                     'Cadastre-se',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.black,
-                    ),
+                    style: TextStyle(fontSize: 16, color: Colors.black),
                   ),
                 ),
               ],

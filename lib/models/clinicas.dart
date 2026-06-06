@@ -1,3 +1,5 @@
+import 'autonomos.dart';
+
 class Clinica {
   final int? id;
   final String nome;
@@ -5,9 +7,10 @@ class Clinica {
   final String horario;
   final String descricao;
   final double nota;
+  final double lat;
+  final double long;
   final List<String> planos;
-  final double latitude;
-  final double longitude;
+  final List<Autonomo> profissionais;
 
   Clinica({
     this.id,
@@ -16,24 +19,11 @@ class Clinica {
     required this.horario,
     required this.descricao,
     required this.nota,
+    required this.lat,
+    required this.long,
     required this.planos,
-    required this.latitude,
-    required this.longitude,
+    required this.profissionais,
   });
-
-  factory Clinica.fromMap(Map<String, dynamic> map) {
-    return Clinica(
-      id: map['id'],
-      nome: map['nome'],
-      endereco: map['endereco'],
-      horario: map['horario'],
-      descricao: map['descricao'],
-      nota: map['nota'],
-      planos: List<String>.from(map['planos']),
-      latitude: map['lat'],
-      longitude: map['long'],
-    );
-  }
 
   Map<String, dynamic> toMap() {
     return {
@@ -43,14 +33,24 @@ class Clinica {
       'horario': horario,
       'descricao': descricao,
       'nota': nota,
-      'planos': planos,
-      'lat': latitude,
-      'long': longitude,
+      'lat': lat,
+      'long': long,
+      'planos': planos.join(','),
     };
   }
+
+  factory Clinica.fromMap(Map<String, dynamic> map, {List<Autonomo> profissionais = const []}) {
+    return Clinica(
+      id: map['id'],
+      nome: map['nome'],
+      endereco: map['endereco'],
+      horario: map['horario'],
+      descricao: map['descricao'],
+      nota: map['nota'],
+      lat: map['lat'],
+      long: map['long'],
+      planos: (map['planos'] as String).split(','),
+      profissionais: profissionais,
+    );
   }
-
-
-
-
-
+}

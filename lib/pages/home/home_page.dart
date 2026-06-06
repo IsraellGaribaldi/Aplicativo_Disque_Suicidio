@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:app_disque_suicidio/pages/perfil/perfil.dart';
 import 'package:app_disque_suicidio/pages/auth/login_usuario.dart';
+import 'package:app_disque_suicidio/pages/perfil/perfil.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,10 +56,7 @@ class _HomePageState extends State<HomePage> {
               const SizedBox(height: 70),
               const Text(
                 "Ou se já tiver uma conta",
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.black,
-                ),
+                style: TextStyle(fontSize: 16, color: Colors.black),
               ),
               const SizedBox(height: 21),
               OutlinedButton(

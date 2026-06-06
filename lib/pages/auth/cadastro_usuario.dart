@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:app_disque_suicidio/pages/perfil/perfil.dart';
 import 'package:app_disque_suicidio/pages/auth/login_usuario.dart';
-import 'package:app_disque_suicidio/banco/database_helper.dart';
 import 'package:app_disque_suicidio/pages/home/mapa_inicio.dart';
-
 
 class CadastroUsuario extends StatefulWidget {
   const CadastroUsuario({super.key});
@@ -14,16 +11,13 @@ class CadastroUsuario extends StatefulWidget {
 
 class _CadastroUsuarioState extends State<CadastroUsuario> {
   final _formKey = GlobalKey<FormState>();
-
   final _nomeController = TextEditingController();
   final _emailController = TextEditingController();
   final _telefoneController = TextEditingController();
   final _dataNascimentoController = TextEditingController();
   final _passwordController = TextEditingController();
+  String? _generoSelecionado;
 
-  String? _generoSelecionado; //salva o genero selecionado
-
-  // Limpa os controladores da memória ao fechar a tela
   @override
   void dispose() {
     _nomeController.dispose();
@@ -61,7 +55,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15.0)),
-                    labelText: 'Nome',
+                    labelText: 'Nome Completo',
                     hintText: 'Digite seu nome aqui',
                   ),
                   validator: (value) {
@@ -119,19 +113,16 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                     hintText: 'Selecione sua data',
                   ),
                   onTap: () async {
-                    // Abre o seletor de datas nativo do Flutter
                     DateTime? dataSelecionada = await showDatePicker(
                       context: context,
-                      initialDate: DateTime.now().subtract(const Duration(
-                          days: 365 * 18)), // Sugere 18 anos atrás
+                      initialDate: DateTime.now()
+                          .subtract(const Duration(days: 365 * 18)),
                       firstDate: DateTime(1900),
                       lastDate: DateTime.now(),
                     );
-
                     if (dataSelecionada != null) {
-                      String dataFormatada =
-                          "${dataSelecionada.day.toString().padLeft(2, '0')}/${dataSelecionada.month.toString().padLeft(2, '0')}/${dataSelecionada.year}";
-                      _dataNascimentoController.text = dataFormatada;
+                      _dataNascimentoController.text =
+                      "${dataSelecionada.day.toString().padLeft(2, '0')}/${dataSelecionada.month.toString().padLeft(2, '0')}/${dataSelecionada.year}";
                     }
                   },
                   validator: (value) {
@@ -151,9 +142,9 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                   ),
                   items: ['Masculino', 'Feminino', 'Outro', 'Prefiro não dizer']
                       .map((genero) => DropdownMenuItem(
-                            value: genero,
-                            child: Text(genero),
-                          ))
+                    value: genero,
+                    child: Text(genero),
+                  ))
                       .toList(),
                   onChanged: (novoValor) {
                     setState(() {
@@ -170,11 +161,11 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                 const SizedBox(height: 30),
                 TextFormField(
                   controller: _passwordController,
+                  obscureText: true,
                   keyboardType: TextInputType.visiblePassword,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15.0),
-                    ),
+                        borderRadius: BorderRadius.circular(15.0)),
                     labelText: 'Senha',
                     hintText: 'Digite sua senha aqui',
                   ),
@@ -201,9 +192,10 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const MapPage()));
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const MapPage()),
+                      );
                     }
                   },
                   child: const Text(
@@ -218,10 +210,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                 const SizedBox(height: 94),
                 const Text(
                   "Já tem uma conta?",
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.black,
-                  ),
+                  style: TextStyle(fontSize: 16, color: Colors.black),
                 ),
                 const SizedBox(height: 19),
                 OutlinedButton(
@@ -233,15 +222,14 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                     minimumSize: const Size(171, 50),
                   ),
                   onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => const Login()));
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const Login()),
+                    );
                   },
                   child: const Text(
                     'Faça login',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.black,
-                    ),
+                    style: TextStyle(fontSize: 16, color: Colors.black),
                   ),
                 ),
               ],
