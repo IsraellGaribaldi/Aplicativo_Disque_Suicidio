@@ -11,6 +11,8 @@ class _MapPageState extends State<MapPage> {
 
   final LatLng _centro = const LatLng(-7.1195, -34.8450);
 
+  final TextEditingController searchController = TextEditingController();
+
   final Set<Marker> _marcadores = {
     const Marker(
       markerId: MarkerId('unipe'),
@@ -29,23 +31,55 @@ class _MapPageState extends State<MapPage> {
   @override
   Widget build(BuildContext context) {
     final telas = [
-      GoogleMap(
-        onMapCreated: _onMapCreated,
-        initialCameraPosition: CameraPosition(
-          target: _centro,
-          zoom: 13,
+  Column(
+  children: [
+    Padding(
+      padding: const EdgeInsets.all(10),
+      child: Container(
+        margin: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(30),
         ),
-        markers: _marcadores,
-        myLocationEnabled: true,
-        zoomControlsEnabled: true,
+        child: TextField(
+          controller: searchController,
+          decoration: const InputDecoration(
+            hintText: "Pesquisar local",
+            prefixIcon: Icon(Icons.search),
+            border: InputBorder.none,
+            contentPadding: EdgeInsets.symmetric(
+              vertical: 15,
+            ),
+          ),
+        ),
       ),
-      ClinicaPage(),
-      AutonomoPage(),
-    ];
+    ),
+  
+      Expanded(
+        child: GoogleMap(
+          onMapCreated: _onMapCreated,
+          initialCameraPosition: CameraPosition(
+            target: _centro,
+            zoom: 13,
+          ),
+          markers: _marcadores,
+          myLocationEnabled: true,
+          zoomControlsEnabled: true,
+        ),
+      ),
+    ],
+  ),
+
+  ClinicaPage(),
+  AutonomoPage(),
+  ];
 
     return Scaffold(
       body: telas[_paginaAtual],
       bottomNavigationBar: BottomNavigationBar(
+
+        selectedItemColor: Color(0xFF008D97),
+        unselectedItemColor: Colors.grey,
+        
         currentIndex: _paginaAtual,
         onTap: (index) {
           setState(() {

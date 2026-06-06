@@ -11,6 +11,8 @@ class ClinicasController extends ChangeNotifier {
         descricao: 'Atendimento psicológico e psiquiátrico.',
         nota: 4.8,
         planos: ['Unimed', 'Hapvida', 'Geap'],
+        latitude: -7.1195,
+        longitude: -34.8450,
       ),
 
       Clinica(
@@ -20,6 +22,8 @@ class ClinicasController extends ChangeNotifier {
         descricao: 'Especializada em saúde mental.',
         nota: 4.6,
         planos: ['Bradesco', 'SulAmérica'],
+        latitude: -7.1200,
+        longitude: -34.8460,
       ),
     ];
   }
