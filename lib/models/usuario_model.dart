@@ -19,13 +19,13 @@ class Usuario {
 
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
-      'nome': nome,
-      'email': email,
-      'telefone': telefone,
-      'dataNascimento': dataNascimento.toIso8601String(),
-      'genero': genero,
-      'senha': senha,
+      'id': id.toString(),
+      'nome': nome.toString(),
+      'email': email.toString(),
+      'telefone': telefone.toString(),
+      'dataNascimento': dataNascimento.toIso8601String().split('T')[0],
+      'genero': genero.toString(),
+      'senha': senha.toString(),
     };
   }
 

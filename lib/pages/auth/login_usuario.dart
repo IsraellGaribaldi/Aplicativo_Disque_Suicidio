@@ -1,3 +1,4 @@
+import 'package:app_disque_suicidio/pages/perfil/perfil.dart';
 import 'package:flutter/material.dart';
 import 'package:app_disque_suicidio/banco/database_helper.dart';
 import 'package:app_disque_suicidio/models/usuario_model.dart';
@@ -174,8 +175,7 @@ class _LoginState extends State<Login> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => const CadastroUsuario()),
+                      MaterialPageRoute(builder: (context) => const Perfil()),
                     );
                   },
                   child: const Text('Cadastre-se',

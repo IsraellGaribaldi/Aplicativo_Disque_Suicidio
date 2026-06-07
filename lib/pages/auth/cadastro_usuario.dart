@@ -37,64 +37,70 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
 
     setState(() => _carregando = true);
 
-    final db = await DatabaseHelper.getDatabase();
+    try {
+      final db = await DatabaseHelper.getDatabase();
 
-    // Verifica se email já existe
-    final emailExistente = await db.query(
-      'contas',
-      where: 'email = ?',
-      whereArgs: [_emailController.text.trim()],
-    );
+      final emailExistente = await db.query(
+        'contas',
+        where: 'email = ?',
+        whereArgs: [_emailController.text.trim()],
+      );
 
-    if (emailExistente.isNotEmpty) {
-      setState(() => _carregando = false);
+      if (emailExistente.isNotEmpty) {
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Este email já está cadastrado.'),
+            backgroundColor: Colors.red,
+          ),
+        );
+        return;
+      }
+
+      final partes = _dataNascimentoController.text.split('/');
+      final dataNascimento = DateTime(
+        int.parse(partes[2]),
+        int.parse(partes[1]),
+        int.parse(partes[0]),
+      );
+
+      final usuario = Usuario(
+        id: const Uuid().v4(),
+        nome: _nomeController.text.trim(),
+        email: _emailController.text.trim(),
+        telefone: _telefoneController.text.trim(),
+        dataNascimento: dataNascimento,
+        genero: _generoSelecionado!,
+        senha: HashHelper.hashSenha(_passwordController.text),
+      );
+
+      await DatabaseHelper.inserirUsuario(usuario);
+
       if (!mounted) return;
+
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Este email já está cadastrado.'),
+          content: Text('Conta criada com sucesso! Faça login.'),
+          backgroundColor: Colors.green,
+        ),
+      );
+
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const Login()),
+            (route) => false,
+      );
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Erro ao cadastrar: $e'),
           backgroundColor: Colors.red,
         ),
       );
-      return;
+    } finally {
+      if (mounted) setState(() => _carregando = false);
     }
-
-    // Converte data de dd/mm/yyyy para DateTime
-    final partes = _dataNascimentoController.text.split('/');
-    final dataNascimento = DateTime(
-      int.parse(partes[2]),
-      int.parse(partes[1]),
-      int.parse(partes[0]),
-    );
-
-    final usuario = Usuario(
-      id: const Uuid().v4(),
-      nome: _nomeController.text.trim(),
-      email: _emailController.text.trim(),
-      telefone: _telefoneController.text.trim(),
-      dataNascimento: dataNascimento,
-      genero: _generoSelecionado!,
-      senha: HashHelper.hashSenha(_passwordController.text),
-    );
-
-    await DatabaseHelper.inserirUsuario(usuario);
-
-    setState(() => _carregando = false);
-
-    if (!mounted) return;
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Conta criada com sucesso! Faça login.'),
-        backgroundColor: Colors.green,
-      ),
-    );
-
-    // Vai pro login limpando todo o histórico de navegação
-    Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(builder: (context) => const Login()),
-          (route) => false,
-    );
   }
 
   @override
@@ -251,7 +257,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                 const SizedBox(height: 64),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                    backgroundColor: Theme.of(context).colorScheme.primary,
                     elevation: 3,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(50),

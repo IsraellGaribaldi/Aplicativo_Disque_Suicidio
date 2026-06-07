@@ -107,6 +107,10 @@ class _MapPageState extends State<MapPage> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _paginaAtual,
         onTap: (index) => setState(() => _paginaAtual = index),
+        backgroundColor: const Color(0xFF008D97),
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.white70,
+        type: BottomNavigationBarType.fixed,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.map), label: 'Mapa'),
           BottomNavigationBarItem(

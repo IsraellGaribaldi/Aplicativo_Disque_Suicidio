@@ -142,6 +142,8 @@ class DatabaseHelper {
     });
   }
 
+
+
   static Future<void> inserirUsuario(Usuario usuario) async {
     final db = await getDatabase();
     await db.insert('contas', usuario.toMap());

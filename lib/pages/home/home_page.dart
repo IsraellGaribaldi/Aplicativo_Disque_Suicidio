@@ -31,7 +31,7 @@ class HomePage extends StatelessWidget {
               const SizedBox(height: 196),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                  backgroundColor: Theme.of(context).colorScheme.primary,
                   elevation: 3,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(50),
