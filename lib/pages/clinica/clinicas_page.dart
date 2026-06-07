@@ -82,7 +82,31 @@ class _CardClinica extends StatelessWidget {
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
             const SizedBox(height: 4),
             ...clinica.planos.map((p) => Text('• $p')),
-            const SizedBox(height: 12),
+            const SizedBox(height: 16),
+            
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                ),
+                onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => CredenciaisPage(clinica: clinica),
+                  ),
+                ),
+                child: Text(
+                  'Ver credenciais da Clínica',
+                  style: TextStyle(color: Theme.of(context).colorScheme.onPrimaryContainer),
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+
             const Text('Profissionais',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
             const SizedBox(height: 8),

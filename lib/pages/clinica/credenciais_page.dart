@@ -1,13 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:app_disque_suicidio/models/autonomos.dart';
+import 'package:app_disque_suicidio/models/clinicas.dart';
 
 class CredenciaisPage extends StatelessWidget {
-  final Autonomo profissional;
+  final Clinica? clinica;
+  final Autonomo? profissional;
 
-  const CredenciaisPage({super.key, required this.profissional});
+  const CredenciaisPage({
+    super.key,
+    this.clinica,
+    this.profissional,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final String nomeExibido = clinica?.nome ?? profissional?.nome ?? 'Credenciais';
+
+    final List<String> documentosClinica = [
+      'Registro no CRP (Pessoa Jurídica)',
+      'CNPJ',
+      'Contrato Social',
+      'Licença Sanitária',
+      'CNES',
+      'Inscrição Municipal',
+    ];
+
+    final List<String> documentosAutonomo = (profissional?.credenciais != null && profissional!.credenciais.isNotEmpty)
+        ? profissional!.credenciais
+        : ['Registro no CRP', 'CNPJ', 'Contrato Social', 'Licença Sanitária', 'CNES', 'Inscrição Municipal'];
+
+    final List<String> formacoesAutonomo = [
+      if (profissional?.diploma != null && profissional!.diploma.isNotEmpty)
+        'Diploma em: ${profissional!.diploma}'
+      else
+        'Diploma não informado',
+        
+      if (profissional?.especialidade != null && profissional!.especialidade.isNotEmpty)
+        'Especialização em: ${profissional!.especialidade}',
+    ];
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Credenciais'),
@@ -15,53 +46,101 @@ class CredenciaisPage extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              profissional.nome,
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Theme.of(context).colorScheme.onSurface,
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                nomeExibido,
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
               ),
+              const SizedBox(height: 24),
+
+              if (clinica != null) ...[
+                _buildRoundedContainer(
+                  context: context,
+                  titulo: 'Documentos Principais',
+                  itens: documentosClinica,
+                ),
+              ],
+
+              if (profissional != null) ...[
+                _buildRoundedContainer(
+                  context: context,
+                  titulo: 'Documentos Principais',
+                  itens: documentosAutonomo,
+                ),
+                
+                const SizedBox(height: 20),
+
+                _buildRoundedContainer(
+                  context: context,
+                  titulo: 'Formação Acadêmica',
+                  itens: formacoesAutonomo,
+                ),
+              ],
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildRoundedContainer({
+    required BuildContext context,
+    required String titulo,
+    required List<String> itens,
+  }) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.surfaceContainerHighest,
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            titulo,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+              color: Theme.of(context).colorScheme.onSurface,
             ),
-            const SizedBox(height: 24),
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surfaceContainerHighest,
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Column(
+          ),
+          const SizedBox(height: 16),
+          ...itens.map(
+            (item) => Padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Documentos Principais',
+                    '• ',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                      color: Theme.of(context).colorScheme.onSurface,
+                      color: Theme.of(context).colorScheme.primary,
                     ),
                   ),
-                  const SizedBox(height: 16),
-                  ...profissional.credenciais.map(
-                        (c) => Padding(
-                      padding: const EdgeInsets.only(bottom: 6),
-                      child: Text(
-                        c,
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.onSurface,
-                        ),
+                  Expanded(
+                    child: Text(
+                      item.trim(),
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Theme.of(context).colorScheme.onSurface,
                       ),
                     ),
                   ),
                 ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

@@ -54,6 +54,7 @@ class DatabaseHelper {
           CREATE TABLE autonomos (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             nome TEXT,
+            diploma TEXT,
             especialidade TEXT,
             endereco TEXT,
             horario TEXT,
@@ -140,9 +141,22 @@ class DatabaseHelper {
       'clinica_id': clinicaId,
       'autonomo_id': psiquiatraId,
     });
+
+    await db.insert('autonomos', {
+      'nome':'doutor foda',
+      'diploma': 'psicologia',
+      'especialidade': 'psicanalise e tcc',
+      'endereco': 'rua fodona, 69, centro',
+      'horario': 'manhãs',
+      'descricao': 'teste do banco de dados',
+      'preco': 200.0,
+      'nota': 3.5,
+      'lat': -7.1489,
+      'long': -34.8466,
+      'planos': 'Unimed,Hapvida',
+      'credenciais': 'DOCUMENTO TESTE BATATA 123,Certificado de Teste 2026,Licença Falsa'
+    });
   }
-
-
 
   static Future<void> inserirUsuario(Usuario usuario) async {
     final db = await getDatabase();

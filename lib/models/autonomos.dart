@@ -1,6 +1,7 @@
 class Autonomo {
   final int? id;
   final String nome;
+  final String diploma;
   final String especialidade;
   final String endereco;
   final String horario;
@@ -15,6 +16,7 @@ class Autonomo {
   Autonomo({
     this.id,
     required this.nome,
+    required this.diploma,
     required this.especialidade,
     required this.endereco,
     required this.horario,
@@ -31,6 +33,7 @@ class Autonomo {
     return {
       'id': id,
       'nome': nome,
+      'diploma': diploma,
       'especialidade': especialidade,
       'endereco': endereco,
       'horario': horario,
@@ -48,6 +51,7 @@ class Autonomo {
     return Autonomo(
       id: map['id'],
       nome: map['nome'],
+      diploma: map['diploma'] ?? '',
       especialidade: map['especialidade'],
       endereco: map['endereco'],
       horario: map['horario'],
