@@ -106,7 +106,6 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(20.0),
@@ -115,12 +114,12 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text(
+                Text(
                   "Criar uma conta",
                   style: TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.w600,
-                    color: Colors.black,
+                    color: Theme.of(context).colorScheme.onSurface,
                   ),
                 ),
                 const SizedBox(height: 40),
@@ -277,14 +276,20 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                   ),
                 ),
                 const SizedBox(height: 94),
-                const Text(
+                Text(
                   "Já tem uma conta?",
-                  style: TextStyle(fontSize: 16, color: Colors.black),
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
                 ),
                 const SizedBox(height: 19),
                 OutlinedButton(
                   style: OutlinedButton.styleFrom(
-                    side: const BorderSide(color: Colors.black, width: 1),
+                    side: BorderSide(
+                      color: Theme.of(context).colorScheme.onSurface,
+                      width: 1,
+                    ),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(50),
                     ),
@@ -297,9 +302,12 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                           (route) => false,
                     );
                   },
-                  child: const Text(
+                  child: Text(
                     'Faça login',
-                    style: TextStyle(fontSize: 16, color: Colors.black),
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Theme.of(context).colorScheme.onSurface,
+                    ),
                   ),
                 ),
               ],

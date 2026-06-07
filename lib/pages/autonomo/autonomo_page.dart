@@ -69,6 +69,7 @@ class _CardAutonomo extends StatelessWidget {
                 style: const TextStyle(
                     fontSize: 20, fontWeight: FontWeight.bold)),
             const SizedBox(height: 4),
+            const Text('', style: TextStyle(color: Colors.teal)),
             Text(autonomo.especialidade,
                 style: const TextStyle(color: Colors.teal)),
             const SizedBox(height: 8),
@@ -94,7 +95,7 @@ class _CardAutonomo extends StatelessWidget {
               width: double.infinity,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                  backgroundColor: Theme.of(context).colorScheme.primary,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(50),
                   ),

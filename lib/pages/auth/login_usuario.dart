@@ -1,8 +1,8 @@
+import 'package:app_disque_suicidio/main.dart';
 import 'package:app_disque_suicidio/pages/perfil/perfil.dart';
 import 'package:flutter/material.dart';
 import 'package:app_disque_suicidio/banco/database_helper.dart';
 import 'package:app_disque_suicidio/models/usuario_model.dart';
-import 'package:app_disque_suicidio/pages/auth/cadastro_usuario.dart';
 import 'package:app_disque_suicidio/pages/home/mapa_inicio.dart';
 import 'package:app_disque_suicidio/utils/hash_helper.dart';
 
@@ -63,128 +63,177 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
+    final appState = MyApp.of(context);
+    final isDark = appState?.isDark ?? false;
+
     return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      body: Center(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(20.0),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset(
-                  'img/Escura-removebg-preview.png',
-                  height: 250,
-                  width: 230,
-                ),
-                const SizedBox(height: 20),
-                const Text(
-                  "Boas Vindas!",
-                  style: TextStyle(
-                    fontSize: 32,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                const SizedBox(height: 33),
-                const Text(
-                  "Faça login para continuar",
-                  style: TextStyle(fontSize: 20),
-                ),
-                const SizedBox(height: 30),
-                TextFormField(
-                  controller: _emailController,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15.0)),
-                    labelText: 'Email',
-                    hintText: 'Digite seu email aqui',
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Por favor, insira o email';
-                    }
-                    if (!value.contains('@')) {
-                      return 'Email inválido';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 50),
-                TextFormField(
-                  controller: _passwordController,
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15.0)),
-                    labelText: 'Senha',
-                    hintText: 'Digite sua senha aqui',
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Por favor, insira a senha';
-                    }
-                    if (value.length < 6) {
-                      return 'Mínimo 6 caracteres';
-                    }
-                    return null;
-                  },
-                ),
-                TextButton(
-                  onPressed: () {},
-                  child: const Text(
-                    "Esqueceu a senha?",
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-                  ),
-                ),
-                const SizedBox(height: 58),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF008D97),
-                    elevation: 3,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50),
+      body: Stack(
+        children: [
+          Center(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(20.0),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ColorFiltered(
+                      colorFilter: Theme.of(context).brightness == Brightness.dark
+                          ? const ColorFilter.matrix([
+                        -1, 0, 0, 0, 255,
+                        0, -1, 0, 0, 255,
+                        0, 0, -1, 0, 255,
+                        0, 0, 0, 1, 0,
+                      ])
+                          : const ColorFilter.mode(
+                        Colors.transparent,
+                        BlendMode.dst,
+                      ),
+                      child: Image.asset(
+                        'img/Escura-removebg-preview.png',
+                        height: 250,
+                        width: 230,
+                      ),
                     ),
-                    minimumSize: const Size(362, 60),
-                  ),
-                  onPressed: _carregando ? null : _fazerLogin,
-                  child: _carregando
-                      ? const CircularProgressIndicator(color: Colors.white)
-                      : const Text(
-                    'Entrar',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white,
+                    const SizedBox(height: 20),
+                    Text(
+                      "Boas Vindas!",
+                      style: TextStyle(
+                        fontSize: 32,
+                        fontWeight: FontWeight.w600,
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
                     ),
-                  ),
-                ),
-                const SizedBox(height: 83),
-                const Text("Não se cadastrou?",
-                    style: TextStyle(fontSize: 16)),
-                const SizedBox(height: 21),
-                OutlinedButton(
-                  style: OutlinedButton.styleFrom(
-                    side: const BorderSide(color: Colors.black, width: 1),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50),
+                    const SizedBox(height: 33),
+                    Text(
+                      "Faça login para continuar",
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
                     ),
-                    minimumSize: const Size(171, 50),
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const Perfil()),
-                    );
-                  },
-                  child: const Text('Cadastre-se',
-                      style: TextStyle(fontSize: 16)),
+                    const SizedBox(height: 30),
+                    TextFormField(
+                      controller: _emailController,
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15.0)),
+                        labelText: 'Email',
+                        hintText: 'Digite seu email aqui',
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Por favor, insira o email';
+                        }
+                        if (!value.contains('@')) {
+                          return 'Email inválido';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 50),
+                    TextFormField(
+                      controller: _passwordController,
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15.0)),
+                        labelText: 'Senha',
+                        hintText: 'Digite sua senha aqui',
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Por favor, insira a senha';
+                        }
+                        if (value.length < 6) {
+                          return 'Mínimo 6 caracteres';
+                        }
+                        return null;
+                      },
+                    ),
+                    TextButton(
+                      onPressed: () {},
+                      child: const Text(
+                        "Esqueceu a senha?",
+                        style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                    const SizedBox(height: 58),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF008D97),
+                        elevation: 3,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                        minimumSize: const Size(362, 60),
+                      ),
+                      onPressed: _carregando ? null : _fazerLogin,
+                      child: _carregando
+                          ? const CircularProgressIndicator(color: Colors.white)
+                          : const Text(
+                        'Entrar',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 83),
+                    Text(
+                      "Não se cadastrou?",
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
+                    ),
+                    const SizedBox(height: 21),
+                    OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        side: BorderSide(
+                          color: Theme.of(context).colorScheme.onSurface,
+                          width: 1,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                        minimumSize: const Size(171, 50),
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const Perfil()),
+                        );
+                      },
+                      child: Text(
+                        'Cadastre-se',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
-        ),
+          Positioned(
+            top: 50,
+            right: 16,
+            child: FloatingActionButton(
+              mini: true,
+              backgroundColor: const Color(0xFF008D97),
+              onPressed: () => appState?.toggleTheme(),
+              child: Icon(
+                isDark ? Icons.light_mode : Icons.dark_mode,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
