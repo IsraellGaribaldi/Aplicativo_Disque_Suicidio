@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:app_disque_suicidio/banco/database_helper.dart';
+import 'package:app_disque_suicidio/models/usuario_model.dart';
 import 'package:app_disque_suicidio/pages/auth/cadastro_usuario.dart';
 import 'package:app_disque_suicidio/pages/home/mapa_inicio.dart';
+import 'package:app_disque_suicidio/utils/hash_helper.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -34,7 +36,7 @@ class _LoginState extends State<Login> {
       where: 'email = ? AND senha = ?',
       whereArgs: [
         _emailController.text.trim(),
-        _passwordController.text,
+        HashHelper.hashSenha(_passwordController.text),
       ],
     );
 
@@ -43,9 +45,10 @@ class _LoginState extends State<Login> {
     if (!mounted) return;
 
     if (resultado.isNotEmpty) {
+      final usuario = Usuario.fromMap(resultado.first);
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const MapPage()),
+        MaterialPageRoute(builder: (context) => MapPage(usuario: usuario)),
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -60,7 +63,7 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFFAFAFA),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(20.0),
@@ -80,13 +83,12 @@ class _LoginState extends State<Login> {
                   style: TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.w600,
-                    color: Colors.black,
                   ),
                 ),
                 const SizedBox(height: 33),
                 const Text(
                   "Faça login para continuar",
-                  style: TextStyle(fontSize: 20, color: Colors.black),
+                  style: TextStyle(fontSize: 20),
                 ),
                 const SizedBox(height: 30),
                 TextFormField(
@@ -112,7 +114,6 @@ class _LoginState extends State<Login> {
                 TextFormField(
                   controller: _passwordController,
                   obscureText: true,
-                  keyboardType: TextInputType.visiblePassword,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15.0)),
@@ -133,10 +134,7 @@ class _LoginState extends State<Login> {
                   onPressed: () {},
                   child: const Text(
                     "Esqueceu a senha?",
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                    ),
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
                   ),
                 ),
                 const SizedBox(height: 58),
@@ -162,10 +160,8 @@ class _LoginState extends State<Login> {
                   ),
                 ),
                 const SizedBox(height: 83),
-                const Text(
-                  "Não se cadastrou?",
-                  style: TextStyle(fontSize: 16, color: Colors.black),
-                ),
+                const Text("Não se cadastrou?",
+                    style: TextStyle(fontSize: 16)),
                 const SizedBox(height: 21),
                 OutlinedButton(
                   style: OutlinedButton.styleFrom(
@@ -182,10 +178,8 @@ class _LoginState extends State<Login> {
                           builder: (context) => const CadastroUsuario()),
                     );
                   },
-                  child: const Text(
-                    'Cadastre-se',
-                    style: TextStyle(fontSize: 16, color: Colors.black),
-                  ),
+                  child: const Text('Cadastre-se',
+                      style: TextStyle(fontSize: 16)),
                 ),
               ],
             ),

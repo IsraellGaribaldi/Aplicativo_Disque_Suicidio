@@ -57,7 +57,7 @@ class Perfil extends StatelessWidget {
               const SizedBox(height: 42),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFFE6F5F6),
+                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                   elevation: 3,
                   side: const BorderSide(color: Colors.black, width: 1),
                   shape: RoundedRectangleBorder(

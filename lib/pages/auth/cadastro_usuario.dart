@@ -1,6 +1,9 @@
+import 'package:app_disque_suicidio/utils/hash_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:app_disque_suicidio/banco/database_helper.dart';
+import 'package:app_disque_suicidio/models/usuario_model.dart';
 import 'package:app_disque_suicidio/pages/auth/login_usuario.dart';
-import 'package:app_disque_suicidio/pages/home/mapa_inicio.dart';
+import 'package:uuid/uuid.dart';
 
 class CadastroUsuario extends StatefulWidget {
   const CadastroUsuario({super.key});
@@ -17,6 +20,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
   final _dataNascimentoController = TextEditingController();
   final _passwordController = TextEditingController();
   String? _generoSelecionado;
+  bool _carregando = false;
 
   @override
   void dispose() {
@@ -28,10 +32,75 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
     super.dispose();
   }
 
+  Future<void> _cadastrar() async {
+    if (!_formKey.currentState!.validate()) return;
+
+    setState(() => _carregando = true);
+
+    final db = await DatabaseHelper.getDatabase();
+
+    // Verifica se email já existe
+    final emailExistente = await db.query(
+      'contas',
+      where: 'email = ?',
+      whereArgs: [_emailController.text.trim()],
+    );
+
+    if (emailExistente.isNotEmpty) {
+      setState(() => _carregando = false);
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Este email já está cadastrado.'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
+    // Converte data de dd/mm/yyyy para DateTime
+    final partes = _dataNascimentoController.text.split('/');
+    final dataNascimento = DateTime(
+      int.parse(partes[2]),
+      int.parse(partes[1]),
+      int.parse(partes[0]),
+    );
+
+    final usuario = Usuario(
+      id: const Uuid().v4(),
+      nome: _nomeController.text.trim(),
+      email: _emailController.text.trim(),
+      telefone: _telefoneController.text.trim(),
+      dataNascimento: dataNascimento,
+      genero: _generoSelecionado!,
+      senha: HashHelper.hashSenha(_passwordController.text),
+    );
+
+    await DatabaseHelper.inserirUsuario(usuario);
+
+    setState(() => _carregando = false);
+
+    if (!mounted) return;
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Conta criada com sucesso! Faça login.'),
+        backgroundColor: Colors.green,
+      ),
+    );
+
+    // Vai pro login limpando todo o histórico de navegação
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => const Login()),
+          (route) => false,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFFAFAFA),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(20.0),
@@ -182,23 +251,17 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                 const SizedBox(height: 64),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF008D97),
+                    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                     elevation: 3,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(50),
                     ),
                     minimumSize: const Size(362, 60),
                   ),
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const MapPage()),
-                      );
-                    }
-                  },
-                  child: const Text(
+                  onPressed: _carregando ? null : _cadastrar,
+                  child: _carregando
+                      ? const CircularProgressIndicator(color: Colors.white)
+                      : const Text(
                     'Cadastrar',
                     style: TextStyle(
                       fontSize: 20,
@@ -222,9 +285,10 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                     minimumSize: const Size(171, 50),
                   ),
                   onPressed: () {
-                    Navigator.push(
+                    Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(builder: (context) => const Login()),
+                          (route) => false,
                     );
                   },
                   child: const Text(

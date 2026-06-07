@@ -16,7 +16,7 @@ class DatabaseHelper {
       onCreate: (db, version) async {
         await db.execute('''
           CREATE TABLE contas (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            id TEXT PRIMARY KEY,
             nome TEXT,
             email TEXT,
             telefone TEXT,
@@ -33,10 +33,10 @@ class DatabaseHelper {
             telefone TEXT,
             cnpj TEXT,
             senha TEXT,
-    lat REAL,
-    long REAL
-  )
-''');
+            lat REAL,
+            long REAL
+          )
+        ''');
         await db.execute('''
           CREATE TABLE clinicas (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -73,6 +73,15 @@ class DatabaseHelper {
             PRIMARY KEY (clinica_id, autonomo_id),
             FOREIGN KEY (clinica_id) REFERENCES clinicas(id),
             FOREIGN KEY (autonomo_id) REFERENCES autonomos(id)
+          )
+        ''');
+        await db.execute('''
+          CREATE TABLE favoritos (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            usuario_id TEXT,
+            tipo TEXT,
+            referencia_id INTEGER,
+            FOREIGN KEY (usuario_id) REFERENCES contas(id)
           )
         ''');
 
@@ -138,13 +147,23 @@ class DatabaseHelper {
     await db.insert('contas', usuario.toMap());
   }
 
+  static Future<void> deletarUsuario(int id) async {
+    final db = await getDatabase();
+    await db.delete('contas', where: 'id = ?', whereArgs: [id]);
+  }
+
   static Future<void> inserirEmpresa(Empresa empresa) async {
     final db = await getDatabase();
     await db.insert('empresas', empresa.toMap());
   }
 
-  static Future<void> deletarUsuario(int id) async {
+  static Future<void> atualizarSenha(String usuarioId, String novaSenha) async {
     final db = await getDatabase();
-    await db.delete('contas', where: 'id = ?', whereArgs: [id]);
+    await db.update(
+      'contas',
+      {'senha': novaSenha},
+      where: 'id = ?',
+      whereArgs: [usuarioId],
+    );
   }
 }

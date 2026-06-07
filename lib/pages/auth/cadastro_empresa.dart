@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:app_disque_suicidio/banco/database_helper.dart';
 import 'package:app_disque_suicidio/models/empresa_model.dart';
 import 'package:app_disque_suicidio/pages/auth/login_usuario.dart';
-import 'package:app_disque_suicidio/pages/home/mapa_inicio.dart';
 
 class CadastroEmpresa extends StatefulWidget {
   const CadastroEmpresa({super.key});
@@ -29,10 +28,39 @@ class _CadastroEmpresaState extends State<CadastroEmpresa> {
     super.dispose();
   }
 
+  Future<void> _cadastrar() async {
+    if (!_formKey.currentState!.validate()) return;
+
+    final empresa = Empresa(
+      nome: _nomeController.text.trim(),
+      email: _emailController.text.trim(),
+      telefone: _telefoneController.text.trim(),
+      cnpj: _cnpjController.text.trim(),
+      senha: _passwordController.text,
+    );
+
+    await DatabaseHelper.inserirEmpresa(empresa);
+
+    if (!mounted) return;
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Conta criada com sucesso! Faça login.'),
+        backgroundColor: Colors.green,
+      ),
+    );
+
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => const Login()),
+          (route) => false,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFFAFAFA),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(20.0),
@@ -46,7 +74,6 @@ class _CadastroEmpresaState extends State<CadastroEmpresa> {
                   style: TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.w600,
-                    color: Colors.black,
                   ),
                 ),
                 const SizedBox(height: 40),
@@ -124,7 +151,6 @@ class _CadastroEmpresaState extends State<CadastroEmpresa> {
                 TextFormField(
                   controller: _passwordController,
                   obscureText: true,
-                  keyboardType: TextInputType.visiblePassword,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15.0)),
@@ -151,26 +177,7 @@ class _CadastroEmpresaState extends State<CadastroEmpresa> {
                     ),
                     minimumSize: const Size(double.infinity, 60),
                   ),
-                  onPressed: () async {
-                    if (_formKey.currentState!.validate()) {
-                      final empresa = Empresa(
-                        nome: _nomeController.text.trim(),
-                        email: _emailController.text.trim(),
-                        telefone: _telefoneController.text.trim(),
-                        cnpj: _cnpjController.text.trim(),
-                        senha: _passwordController.text,
-                      );
-
-                      await DatabaseHelper.inserirEmpresa(empresa);
-
-                      if (!mounted) return;
-
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => const MapPage()),
-                      );
-                    }
-                  },
+                  onPressed: _cadastrar,
                   child: const Text(
                     'Cadastrar',
                     style: TextStyle(
@@ -183,7 +190,7 @@ class _CadastroEmpresaState extends State<CadastroEmpresa> {
                 const SizedBox(height: 94),
                 const Text(
                   "Já tem uma conta?",
-                  style: TextStyle(fontSize: 16, color: Colors.black),
+                  style: TextStyle(fontSize: 16),
                 ),
                 const SizedBox(height: 19),
                 OutlinedButton(
@@ -195,15 +202,15 @@ class _CadastroEmpresaState extends State<CadastroEmpresa> {
                     minimumSize: const Size(171, 50),
                   ),
                   onPressed: () {
-                    Navigator.push(
+                    Navigator.pushAndRemoveUntil(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => const Login()),
+                      MaterialPageRoute(builder: (context) => const Login()),
+                          (route) => false,
                     );
                   },
                   child: const Text(
                     'Faça login',
-                    style: TextStyle(fontSize: 16, color: Colors.black),
+                    style: TextStyle(fontSize: 16),
                   ),
                 ),
               ],
