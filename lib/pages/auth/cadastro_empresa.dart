@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:app_disque_suicidio/banco/database_helper.dart';
+import 'package:app_disque_suicidio/models/empresa_model.dart';
 import 'package:app_disque_suicidio/pages/auth/login_usuario.dart';
 import 'package:app_disque_suicidio/pages/home/mapa_inicio.dart';
 
@@ -149,12 +151,23 @@ class _CadastroEmpresaState extends State<CadastroEmpresa> {
                     ),
                     minimumSize: const Size(double.infinity, 60),
                   ),
-                  onPressed: () {
+                  onPressed: () async {
                     if (_formKey.currentState!.validate()) {
+                      final empresa = Empresa(
+                        nome: _nomeController.text.trim(),
+                        email: _emailController.text.trim(),
+                        telefone: _telefoneController.text.trim(),
+                        cnpj: _cnpjController.text.trim(),
+                        senha: _passwordController.text,
+                      );
+
+                      await DatabaseHelper.inserirEmpresa(empresa);
+
+                      if (!mounted) return;
+
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => const MapPage()),
+                        MaterialPageRoute(builder: (context) => const MapPage()),
                       );
                     }
                   },

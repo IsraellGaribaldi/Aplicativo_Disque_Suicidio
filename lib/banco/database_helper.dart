@@ -1,4 +1,5 @@
 import 'package:app_disque_suicidio/models/usuario_model.dart';
+import 'package:app_disque_suicidio/models/empresa_model.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
@@ -27,12 +28,15 @@ class DatabaseHelper {
         await db.execute('''
           CREATE TABLE empresas (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            lat REAL,
-            long REAL,
             nome TEXT,
-            email TEXT
-          )
-        ''');
+            email TEXT,
+            telefone TEXT,
+            cnpj TEXT,
+            senha TEXT,
+    lat REAL,
+    long REAL
+  )
+''');
         await db.execute('''
           CREATE TABLE clinicas (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -132,6 +136,11 @@ class DatabaseHelper {
   static Future<void> inserirUsuario(Usuario usuario) async {
     final db = await getDatabase();
     await db.insert('contas', usuario.toMap());
+  }
+
+  static Future<void> inserirEmpresa(Empresa empresa) async {
+    final db = await getDatabase();
+    await db.insert('empresas', empresa.toMap());
   }
 
   static Future<void> deletarUsuario(int id) async {
