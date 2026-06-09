@@ -11,9 +11,11 @@ import 'package:app_disque_suicidio/pages/clinica/clinicas_page.dart';
 import 'package:app_disque_suicidio/pages/favoritos/favoritos_page.dart';
 import 'package:app_disque_suicidio/pages/home/home_page.dart';
 import 'package:app_disque_suicidio/pages/perfil/perfil_usuario.dart';
+import 'package:app_disque_suicidio/pages/favoritos/saber_mais.dart';
 
 class MapPage extends StatefulWidget {
   final Usuario usuario;
+
 
   const MapPage({super.key, required this.usuario});
 
@@ -23,9 +25,9 @@ class MapPage extends StatefulWidget {
 
 class _MapPageState extends State<MapPage> {
   int _paginaAtual = 0;
+  Set<Marker> _marcadores = {};
   late GoogleMapController mapController;
   final LatLng _centro = const LatLng(-7.1195, -34.8450);
-  Set<Marker> _marcadores = {};
 
   @override
   void initState() {
@@ -169,6 +171,18 @@ class _MenuFlutuanteState extends State<_MenuFlutuante> {
               setState(() => _aberto = false);
             },
           ),
+          const SizedBox(height: 8),
+            _ItemMenu(                          // 👈 novo botão
+              icone: Icons.info_outline,
+              label: 'Saber mais',
+              onTap: () {
+                setState(() => _aberto = false);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SaibaMais()),
+                );
+              },
+            ),
           const SizedBox(height: 8),
           _ItemMenu(
             icone: Icons.logout,

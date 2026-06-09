@@ -10,6 +10,7 @@ class DatabaseHelper {
     if (_database != null) return _database!;
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, 'banco.db');
+    await deleteDatabase(path);
     _database = await openDatabase(
       path,
       version: 3,
@@ -88,15 +89,16 @@ class DatabaseHelper {
         await _inserirDadosIniciais(db);
       },
     );
+    
     return _database!;
   }
 
   static Future<void> _inserirDadosIniciais(Database db) async {
     final clinicaId = await db.insert('clinicas', {
-      'nome': 'Clínica 1',
-      'endereco': 'R. num sei oq, 67, bairro, cidade',
+      'nome': 'Clínica Viver',
+      'endereco': 'R. fictícia, 987, Manaíra, João Pessoa',
       'horario': 'Aberta as 08:00h - Fechada as 18:00h',
-      'descricao': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      'descricao': 'Clínica especializada de qualidade.',
       'nota': 5.0,
       'lat': -7.1489,
       'long': -34.8466,
@@ -104,9 +106,9 @@ class DatabaseHelper {
     });
 
     final psicoId = await db.insert('autonomos', {
-      'nome': 'Psicólogo 1',
+      'nome': 'Psicólogo Clerberson',
       'especialidade': 'Psicologia',
-      'endereco': 'R. num sei oq, 67, bairro, cidade',
+      'endereco': 'R. imaginária, 765, Funcionários IV, João Pessoa',
       'horario': 'De seg a sex, 12:00h às 18:00h',
       'descricao': 'Psicólogo clínico com experiência em ansiedade e depressão.',
       'preco': 200.0,
@@ -118,9 +120,9 @@ class DatabaseHelper {
     });
 
     final psiquiatraId = await db.insert('autonomos', {
-      'nome': 'Psiquiatra 1',
+      'nome': 'Psiquiatra Géssica',
       'especialidade': 'Psiquiatria',
-      'endereco': 'R. inserir rua, 111, bairro, cidade',
+      'endereco': 'R. qualquer, 111, Mangabeira I, João Pessoa',
       'horario': 'De ter a qui, 8:00h às 15:00h',
       'descricao': 'Psiquiatra especializado em transtornos do humor.',
       'preco': 500.0,
@@ -140,8 +142,40 @@ class DatabaseHelper {
       'clinica_id': clinicaId,
       'autonomo_id': psiquiatraId,
     });
-  }
 
+    
+  }
+  static Future<void> atualizarSenha(String id, String novaSenha) async {
+    final db = await getDatabase();
+    await db.update(
+      'contas',
+      {'senha': novaSenha},
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+  }
+  static Future<void> atualizarEmpresa(Empresa empresa) async {
+    final db = await getDatabase();
+    await db.update(
+      'empresas',
+      empresa.toMap(),
+      where: 'id = ?',
+      whereArgs: [empresa.id],
+    );
+  } 
+  static Future<void> inserirEmpresa(Empresa empresa) async {
+    final db = await getDatabase();
+    await db.insert('empresas', empresa.toMap());
+  }
+  static Future<void> deletarEmpresa(int id) async {
+    final db = await getDatabase();
+    await db.delete('empresas', where: 'id = ?', whereArgs: [id]);
+  }
+  static Future<void> inserirClinica(Map<String, dynamic> clinica) async {
+    final db = await getDatabase();
+    await db.insert('clinicas', clinica);
+  }
+  
 
 
   static Future<void> inserirUsuario(Usuario usuario) async {
@@ -152,20 +186,5 @@ class DatabaseHelper {
   static Future<void> deletarUsuario(int id) async {
     final db = await getDatabase();
     await db.delete('contas', where: 'id = ?', whereArgs: [id]);
-  }
-
-  static Future<void> inserirEmpresa(Empresa empresa) async {
-    final db = await getDatabase();
-    await db.insert('empresas', empresa.toMap());
-  }
-
-  static Future<void> atualizarSenha(String usuarioId, String novaSenha) async {
-    final db = await getDatabase();
-    await db.update(
-      'contas',
-      {'senha': novaSenha},
-      where: 'id = ?',
-      whereArgs: [usuarioId],
-    );
   }
 }
