@@ -12,12 +12,16 @@ class _SaibaMaisState extends State<SaibaMais> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFFAFAFA),
+      appBar: AppBar(
+        leading: const BackButton(),
+        backgroundColor: const Color(0xFFFAFAFA),
+        elevation: 0,
+      ),
       body: Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(20.0),
           child: Column(
-            crossAxisAlignment:
-                CrossAxisAlignment.start, // Alinha o conteúdo à esquerda
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
                 "Saiba mais sobre os tipos de serviços",
@@ -28,13 +32,11 @@ class _SaibaMaisState extends State<SaibaMais> {
                 ),
               ),
               const SizedBox(height: 79),
-
               Container(
-                padding: const EdgeInsets.all(16.0), // Espaço interno da div
+                padding: const EdgeInsets.all(16.0),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    // 1. O Expanded envolve a Column para que o grupo de textos ocupe o lado esquerdo
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -56,9 +58,7 @@ class _SaibaMaisState extends State<SaibaMais> {
                         ],
                       ),
                     ),
-                    const SizedBox(
-                        width: 20), // Espaçamento entre o texto e a imagem
-
+                    const SizedBox(width: 20),
                     ClipRRect(
                       borderRadius: BorderRadius.circular(20),
                       child: Image.asset(
@@ -67,23 +67,17 @@ class _SaibaMaisState extends State<SaibaMais> {
                         height: 266,
                         fit: BoxFit.cover,
                         errorBuilder: (context, error, stackTrace) => Container(
-                          width:
-                              171, // Ajustado para o mesmo tamanho da imagem real
-                          height:
-                              266, // Ajustado para o mesmo tamanho da imagem real
+                          width: 171,
+                          height: 266,
                           color: Colors.grey[200],
-                          child: const Icon(Icons.image,
-                              color: Colors.grey, size: 40),
+                          child: const Icon(Icons.image, color: Colors.grey, size: 40),
                         ),
                       ),
                     ),
                   ],
                 ),
               ),
-
               const SizedBox(height: 75),
-
-              // PSICANALISTA
               Container(
                 padding: const EdgeInsets.all(16.0),
                 child: Row(
@@ -122,18 +116,14 @@ class _SaibaMaisState extends State<SaibaMais> {
                           width: 171,
                           height: 266,
                           color: Colors.grey[200],
-                          child: const Icon(Icons.image,
-                              color: Colors.grey, size: 40),
+                          child: const Icon(Icons.image, color: Colors.grey, size: 40),
                         ),
                       ),
                     ),
                   ],
                 ),
               ),
-
               const SizedBox(height: 75),
-
-              // PSIQUIATRA
               Container(
                 padding: const EdgeInsets.all(16.0),
                 child: Row(
@@ -172,8 +162,7 @@ class _SaibaMaisState extends State<SaibaMais> {
                           width: 171,
                           height: 266,
                           color: Colors.grey[200],
-                          child: const Icon(Icons.image,
-                              color: Colors.grey, size: 40),
+                          child: const Icon(Icons.image, color: Colors.grey, size: 40),
                         ),
                       ),
                     ),
