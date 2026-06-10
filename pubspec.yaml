@@ -39,6 +39,7 @@ dependencies:
   path: ^1.9.1
   uuid: ^4.0.0
   crypto: ^3.0.3
+  image_picker: ^1.0.7
 
 dev_dependencies:
   flutter_test:
@@ -64,11 +65,14 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - img/Escura-letreiro-removebg-preview.png
-    - img/Escura-removebg-preview.png
+    - img/clinica1.jpeg
+    - img/clinica2.jpeg
+    - img/clinica3.jpeg
     - img/psicologo.jpeg
-    - img/psicanalista.jpeg
     - img/psiquiatra.jpeg
+    - img/psicanalista.jpeg
+    - img/Escura-removebg-preview.png
+    - img/Escura-letreiro-removebg-preview.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

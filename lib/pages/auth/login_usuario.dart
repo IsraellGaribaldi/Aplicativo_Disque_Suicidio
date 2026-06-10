@@ -1,8 +1,8 @@
 import 'package:app_disque_suicidio/main.dart';
-import 'package:app_disque_suicidio/pages/perfil/perfil.dart';
 import 'package:flutter/material.dart';
 import 'package:app_disque_suicidio/banco/database_helper.dart';
 import 'package:app_disque_suicidio/models/usuario_model.dart';
+import 'package:app_disque_suicidio/pages/auth/cadastro_usuario.dart';
 import 'package:app_disque_suicidio/pages/home/mapa_inicio.dart';
 import 'package:app_disque_suicidio/utils/hash_helper.dart';
 
@@ -156,7 +156,8 @@ class _LoginState extends State<Login> {
                       onPressed: () {},
                       child: const Text(
                         "Esqueceu a senha?",
-                        style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                        style: TextStyle(
+                            fontSize: 14, fontWeight: FontWeight.w600),
                       ),
                     ),
                     const SizedBox(height: 58),
@@ -204,7 +205,8 @@ class _LoginState extends State<Login> {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const Perfil()),
+                          MaterialPageRoute(
+                              builder: (context) => const CadastroUsuario()),
                         );
                       },
                       child: Text(

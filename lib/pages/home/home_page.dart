@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:app_disque_suicidio/main.dart';
+import 'package:app_disque_suicidio/pages/auth/cadastro_usuario.dart';
 import 'package:app_disque_suicidio/pages/auth/login_usuario.dart';
-import 'package:app_disque_suicidio/pages/perfil/perfil.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -60,7 +60,8 @@ class HomePage extends StatelessWidget {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const Perfil()),
+                        MaterialPageRoute(
+                            builder: (context) => const CadastroUsuario()),
                       );
                     },
                     child: const Text(
@@ -95,7 +96,8 @@ class HomePage extends StatelessWidget {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const Login()),
+                        MaterialPageRoute(
+                            builder: (context) => const Login()),
                       );
                     },
                     child: Text(

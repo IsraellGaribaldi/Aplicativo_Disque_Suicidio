@@ -11,6 +11,7 @@ class Clinica {
   final double long;
   final List<String> planos;
   final List<Autonomo> profissionais;
+  final String? imagem;
 
   Clinica({
     this.id,
@@ -23,6 +24,7 @@ class Clinica {
     required this.long,
     required this.planos,
     required this.profissionais,
+    this.imagem,
   });
 
   Map<String, dynamic> toMap() {
@@ -36,10 +38,12 @@ class Clinica {
       'lat': lat,
       'long': long,
       'planos': planos.join(','),
+      'imagem': imagem,
     };
   }
 
-  factory Clinica.fromMap(Map<String, dynamic> map, {List<Autonomo> profissionais = const []}) {
+  factory Clinica.fromMap(Map<String, dynamic> map,
+      {List<Autonomo> profissionais = const []}) {
     return Clinica(
       id: map['id'],
       nome: map['nome'],
@@ -51,6 +55,7 @@ class Clinica {
       long: map['long'],
       planos: (map['planos'] as String).split(','),
       profissionais: profissionais,
+      imagem: map['imagem'],
     );
   }
 }

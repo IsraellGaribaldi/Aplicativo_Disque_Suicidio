@@ -1,4 +1,6 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:app_disque_suicidio/banco/database_helper.dart';
 import 'package:app_disque_suicidio/models/usuario_model.dart';
 import 'package:app_disque_suicidio/utils/hash_helper.dart';
@@ -18,12 +20,29 @@ class _PerfilUsuarioPageState extends State<PerfilUsuarioPage> {
   final _formKey = GlobalKey<FormState>();
   bool _mostrarFormSenha = false;
   bool _carregando = false;
+  File? _fotoPerfil;
 
   @override
   void dispose() {
     _senhaAtualController.dispose();
     _novaSenhaController.dispose();
     super.dispose();
+  }
+
+  Future<void> _escolherFoto() async {
+    final picker = ImagePicker();
+    final XFile? foto = await picker.pickImage(
+      source: ImageSource.gallery,
+      maxWidth: 512,
+      maxHeight: 512,
+      imageQuality: 80,
+    );
+
+    if (foto != null) {
+      setState(() {
+        _fotoPerfil = File(foto.path);
+      });
+    }
   }
 
   Future<void> _mudarSenha() async {
@@ -100,10 +119,39 @@ class _PerfilUsuarioPageState extends State<PerfilUsuarioPage> {
               ),
               child: Row(
                 children: [
-                  const CircleAvatar(
-                    radius: 30,
-                    backgroundColor: Color(0xFF008D97),
-                    child: Icon(Icons.person, color: Colors.white, size: 32),
+                  GestureDetector(
+                    onTap: _escolherFoto,
+                    child: Stack(
+                      children: [
+                        CircleAvatar(
+                          radius: 36,
+                          backgroundColor: const Color(0xFF008D97),
+                          backgroundImage: _fotoPerfil != null
+                              ? FileImage(_fotoPerfil!)
+                              : null,
+                          child: _fotoPerfil == null
+                              ? const Icon(Icons.person,
+                              color: Colors.white, size: 36)
+                              : null,
+                        ),
+                        Positioned(
+                          bottom: 0,
+                          right: 0,
+                          child: Container(
+                            padding: const EdgeInsets.all(4),
+                            decoration: const BoxDecoration(
+                              color: Color(0xFF008D97),
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Icon(
+                              Icons.camera_alt,
+                              color: Colors.white,
+                              size: 14,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                   const SizedBox(width: 16),
                   Column(
@@ -137,14 +185,15 @@ class _PerfilUsuarioPageState extends State<PerfilUsuarioPage> {
                 children: [
                   const Text(
                     'Dados Pessoais',
-                    style:
-                    TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 16),
                   _LinhaInfo('Nome', usuario.nome),
                   _LinhaInfo('Email', usuario.email),
                   _LinhaInfo('Telefone', usuario.telefone),
-                  _LinhaInfo('Nascimento', _formatarData(usuario.dataNascimento)),
+                  _LinhaInfo('Nascimento',
+                      _formatarData(usuario.dataNascimento)),
                   _LinhaInfo('Gênero', usuario.genero),
                 ],
               ),
