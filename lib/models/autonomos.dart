@@ -11,6 +11,7 @@ class Autonomo {
   final double long;
   final List<String> planos;
   final List<String> credenciais;
+  final String? imagem;
 
   Autonomo({
     this.id,
@@ -25,6 +26,7 @@ class Autonomo {
     required this.long,
     required this.planos,
     required this.credenciais,
+    this.imagem,
   });
 
   Map<String, dynamic> toMap() {
@@ -41,6 +43,7 @@ class Autonomo {
       'long': long,
       'planos': planos.join(','),
       'credenciais': credenciais.join(','),
+      'imagem': imagem,
     };
   }
 
@@ -58,6 +61,7 @@ class Autonomo {
       long: map['long'],
       planos: (map['planos'] as String).split(','),
       credenciais: (map['credenciais'] as String).split(','),
+      imagem: map['imagem'],
     );
   }
 }

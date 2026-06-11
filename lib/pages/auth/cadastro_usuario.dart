@@ -1,9 +1,13 @@
+import 'package:app_disque_suicidio/utils/hash_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:app_disque_suicidio/banco/database_helper.dart';
+import 'package:app_disque_suicidio/models/usuario_model.dart';
 import 'package:app_disque_suicidio/pages/auth/login_usuario.dart';
-import 'package:app_disque_suicidio/pages/home/mapa_inicio.dart';
+import 'package:uuid/uuid.dart';
 
 class CadastroUsuario extends StatefulWidget {
   const CadastroUsuario({super.key});
+  
 
   @override
   State<CadastroUsuario> createState() => _CadastroUsuarioState();
@@ -17,6 +21,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
   final _dataNascimentoController = TextEditingController();
   final _passwordController = TextEditingController();
   String? _generoSelecionado;
+  bool _carregando = false;
 
   @override
   void dispose() {
@@ -28,10 +33,80 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
     super.dispose();
   }
 
+  Future<void> _cadastrar() async {
+    if (!_formKey.currentState!.validate()) return;
+
+    setState(() => _carregando = true);
+
+    try {
+      final db = await DatabaseHelper.getDatabase();
+
+      final emailExistente = await db.query(
+        'contas',
+        where: 'email = ?',
+        whereArgs: [_emailController.text.trim()],
+      );
+
+      if (emailExistente.isNotEmpty) {
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Este email já está cadastrado.'),
+            backgroundColor: Colors.red,
+          ),
+        );
+        return;
+      }
+
+      final partes = _dataNascimentoController.text.split('/');
+      final dataNascimento = DateTime(
+        int.parse(partes[2]),
+        int.parse(partes[1]),
+        int.parse(partes[0]),
+      );
+
+      final usuario = Usuario(
+        id: const Uuid().v4(),
+        nome: _nomeController.text.trim(),
+        email: _emailController.text.trim(),
+        telefone: _telefoneController.text.trim(),
+        dataNascimento: dataNascimento,
+        genero: _generoSelecionado!,
+        senha: HashHelper.hashSenha(_passwordController.text),
+      );
+
+      await DatabaseHelper.inserirUsuario(usuario);
+
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Conta criada com sucesso! Faça login.'),
+          backgroundColor: Colors.green,
+        ),
+      );
+
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const Login()),
+            (route) => false,
+      );
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Erro ao cadastrar: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    } finally {
+      if (mounted) setState(() => _carregando = false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFFAFAFA),
       body: Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(20.0),
@@ -40,12 +115,12 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text(
+                Text(
                   "Criar uma conta",
                   style: TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.w600,
-                    color: Colors.black,
+                    color: Theme.of(context).colorScheme.onSurface,
                   ),
                 ),
                 const SizedBox(height: 40),
@@ -182,23 +257,17 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                 const SizedBox(height: 64),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF008D97),
+                    backgroundColor: Theme.of(context).colorScheme.primary,
                     elevation: 3,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(50),
                     ),
                     minimumSize: const Size(362, 60),
                   ),
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const MapPage()),
-                      );
-                    }
-                  },
-                  child: const Text(
+                  onPressed: _carregando ? null : _cadastrar,
+                  child: _carregando
+                      ? const CircularProgressIndicator(color: Colors.white)
+                      : const Text(
                     'Cadastrar',
                     style: TextStyle(
                       fontSize: 20,
@@ -208,28 +277,38 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                   ),
                 ),
                 const SizedBox(height: 94),
-                const Text(
+                Text(
                   "Já tem uma conta?",
-                  style: TextStyle(fontSize: 16, color: Colors.black),
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
                 ),
                 const SizedBox(height: 19),
                 OutlinedButton(
                   style: OutlinedButton.styleFrom(
-                    side: const BorderSide(color: Colors.black, width: 1),
+                    side: BorderSide(
+                      color: Theme.of(context).colorScheme.onSurface,
+                      width: 1,
+                    ),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(50),
                     ),
                     minimumSize: const Size(171, 50),
                   ),
                   onPressed: () {
-                    Navigator.push(
+                    Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(builder: (context) => const Login()),
+                          (route) => false,
                     );
                   },
-                  child: const Text(
+                  child: Text(
                     'Faça login',
-                    style: TextStyle(fontSize: 16, color: Colors.black),
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Theme.of(context).colorScheme.onSurface,
+                    ),
                   ),
                 ),
               ],
